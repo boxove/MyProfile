@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyProfile</title>
+    <meta name="keywords" content="MyProfile,个人主页">
+    <meta name="description" content="向日葵在没有太阳的晚上，还有谁向它伸出手。">
+    <link rel="shortcut icon" href="./css/img/ico.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <button class="editor-open" id="openEditor" type="button">打开编辑器</button>
+    <div class="app">
+        <main class="stage">
+            <div class="tip" hidden>拖拽元素可直接定位。</div>
+            <section id="canvas" class="canvas" aria-label="MyProfile 首页画布">
+                <div id="tagHome" class="tag tag-home draggable reveal-left" data-key="home">
+                    <span id="homeText">HOME</span>
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                </div>
+                <h1 id="title" class="title draggable reveal" data-key="title">MyProfile</h1>
+                <div id="tagLocation" class="tag tag-location draggable reveal-pop" data-key="location">中国 · 河南</div>
+                <div id="arrow" class="arrow draggable reveal-right" data-key="arrow" aria-hidden="true"></div>
+                <a id="status" class="status draggable reveal-right" data-key="status" href="/" target="_blank" rel="noopener noreferrer">访问主页</a>
+                <p id="quote" class="quote draggable reveal" data-key="quote">你惊艳了我的时光，也温柔了我的岁月。</p>
+                <div id="avatar" class="avatar draggable reveal-pop" data-key="avatar">
+                    <img src="./css/img/ico.png" alt="MyProfile 头像">
+                </div>
+                <a id="beian" class="beian-link draggable reveal" data-key="beian" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">ICP备XXXX号</a>
+            </section>
+        </main>
+
+        <aside class="panel" id="editorPanel" aria-label="首页参数面板" hidden>
+            <div class="panel-head">
+                <h2>Portfolio Hero Editor</h2>
+                <button class="panel-close" id="closeEditor" type="button">关闭</button>
+            </div>
+
+            <div class="group">
+                <h3>文字</h3>
+                <div class="row"><label for="f-title">主标题</label><input id="f-title" type="text"></div>
+                <div class="row"><label for="f-home">标签</label><input id="f-home" type="text"></div>
+                <div class="row"><label for="f-location">位置</label><input id="f-location" type="text"></div>
+                <div class="row"><label for="f-status">按钮</label><input id="f-status" type="text"></div>
+                <div class="row"><label for="f-status-url">按钮链接</label><input id="f-status-url" type="text"></div>
+                <div class="row"><label for="f-quote">短句</label><textarea id="f-quote" rows="3"></textarea></div>
+            </div>
+
+            <div class="group">
+                <h3>颜色</h3>
+                <div class="row"><label for="c-bg">背景</label><input id="c-bg" type="color"></div>
+                <div class="row"><label for="c-grid">网格</label><input id="c-grid" type="text"></div>
+                <div class="row"><label for="c-text">主文字</label><input id="c-text" type="color"></div>
+                <div class="row"><label for="c-blue">蓝色</label><input id="c-blue" type="color"></div>
+                <div class="row"><label for="c-yellow">黄色</label><input id="c-yellow" type="color"></div>
+            </div>
+
+            <div class="group">
+                <h3>位置/旋转</h3>
+                <div class="row"><label>Title X/Y</label><div class="inline"><input id="t-left" type="number"><input id="t-top" type="number"></div></div>
+                <div class="row"><label for="t-size">Title 字号</label><input id="t-size" type="text"></div>
+
+                <div class="row"><label>HOME X/Y</label><div class="inline"><input id="h-left" type="number"><input id="h-top" type="number"></div></div>
+                <div class="row"><label for="h-rot">HOME 旋转</label><input id="h-rot" type="number"></div>
+
+                <div class="row"><label>位置 X/Y</label><div class="inline"><input id="l-left" type="number"><input id="l-top" type="number"></div></div>
+                <div class="row"><label for="l-rot">位置旋转</label><input id="l-rot" type="number"></div>
+
+                <div class="row"><label>箭头 X/Y</label><div class="inline"><input id="a-left" type="number"><input id="a-top" type="number"></div></div>
+                <div class="row"><label for="a-rot">箭头旋转</label><input id="a-rot" type="number"></div>
+
+                <div class="row"><label>按钮 X/Y</label><div class="inline"><input id="s-left" type="number"><input id="s-top" type="number"></div></div>
+                <div class="row"><label for="s-rot">按钮旋转</label><input id="s-rot" type="number"></div>
+
+                <div class="row"><label>短句 X/Y</label><div class="inline"><input id="q-left" type="number"><input id="q-top" type="number"></div></div>
+                <div class="row"><label for="q-rot">短句旋转</label><input id="q-rot" type="number"></div>
+
+                <div class="row"><label>头像 X/Y</label><div class="inline"><input id="v-left" type="number"><input id="v-top" type="number"></div></div>
+                <div class="row"><label for="v-rot">头像旋转</label><input id="v-rot" type="number"></div>
+            </div>
+
+            <div class="group">
+                <h3>动画</h3>
+                <div class="row"><label for="an-enabled">启用动画</label><input id="an-enabled" type="checkbox"></div>
+                <div class="row"><label for="an-title-delay">Title 延迟</label><input id="an-title-delay" type="range" min="0" max="2000" step="10"></div>
+                <div class="row"><label for="an-home-delay">HOME 延迟</label><input id="an-home-delay" type="range" min="0" max="2000" step="10"></div>
+                <div class="row"><label for="an-location-delay">位置延迟</label><input id="an-location-delay" type="range" min="0" max="2000" step="10"></div>
+                <div class="row"><label for="an-arrow-delay">箭头延迟</label><input id="an-arrow-delay" type="range" min="0" max="2000" step="10"></div>
+                <div class="row"><label for="an-status-delay">按钮延迟</label><input id="an-status-delay" type="range" min="0" max="2000" step="10"></div>
+                <div class="row"><label for="an-quote-delay">短句延迟</label><input id="an-quote-delay" type="range" min="0" max="2000" step="10"></div>
+                <div class="row"><label for="an-avatar-delay">头像延迟</label><input id="an-avatar-delay" type="range" min="0" max="2000" step="10"></div>
+                <div class="row"><label>重播动画</label><button id="replay" class="ghost" type="button">Replay</button></div>
+            </div>
+
+            <div class="group">
+                <h3>JSON</h3>
+                <div class="btn-row">
+                    <button id="copyJson" type="button">复制 JSON</button>
+                    <button id="downloadJson" class="ghost" type="button">下载 JSON</button>
+                    <button id="loadJson" class="ghost" type="button">导入 JSON</button>
+                    <button id="reset" class="warn" type="button">重置</button>
+                </div>
+                <p class="hint">可保存配置，后续继续编辑。首页已移除音乐播放器。</p>
+                <div class="row json-row"><textarea id="jsonArea" rows="7"></textarea></div>
+            </div>
+
+        </aside>
+    </div>
+
+    <script>
+        var DEFAULT_CONFIG = {
+            text: {
+                title: 'MyProfile',
+                home: 'HOME',
+                location: '中国 · 河南',
+                status: '访问主页',
+                statusUrl: '/',
+                beian: 'XICP备XXXX号',
+                quote: '你惊艳了我的时光，也温柔了我的岁月。'
+            },
+            colors: {
+                bg: '#d9dbdf',
+                grid: 'rgba(0,0,0,0.045)',
+                text: '#1f2827',
+                blue: '#1736c6',
+                yellow: '#f5ea18',
+                white: '#ffffff'
+            },
+            canvas: {
+                width: 'min(1280px,96vw)',
+                height: 'min(820px,86vh)'
+            },
+            layout: {
+                title: { left: '70px', top: '214px', fontSize: 'clamp(78px,12vw,176px)', rotate: '0deg' },
+                home: { left: '356px', top: '120px', padding: '8px 30px', fontSize: 'clamp(28px,3vw,58px)', rotate: '-8deg', borderWidth: '4px' },
+                location: { left: '126px', top: '500px', padding: '14px 28px', fontSize: 'clamp(22px,2vw,40px)', rotate: '6deg', radius: '20px' },
+                arrow: { left: '694px', top: '522px', size: '76px', rotate: '22deg' },
+                status: { left: '752px', top: '598px', padding: '14px 30px', fontSize: 'clamp(22px,2vw,42px)', rotate: '0deg', radius: '28px' },
+                quote: { left: '74px', top: '58px', width: '430px', fontSize: '22px', rotate: '0deg' },
+                avatar: { left: '760px', top: '110px', size: '118px', rotate: '9deg' },
+                beian: { left: '70px', top: '760px', fontSize: '14px', rotate: '0deg' }
+            },
+            animation: {
+                enabled: true,
+                items: {
+                    title: { type: 'reveal', delay: 120, dur: 820 },
+                    home: { type: 'reveal-left', delay: 260, dur: 720 },
+                    location: { type: 'reveal-pop', delay: 420, dur: 680 },
+                    arrow: { type: 'reveal-right', delay: 520, dur: 620 },
+                    status: { type: 'reveal-right', delay: 620, dur: 680 },
+                    quote: { type: 'reveal', delay: 80, dur: 760 },
+                    avatar: { type: 'reveal-pop', delay: 360, dur: 680 },
+                    beian: { type: 'reveal', delay: 700, dur: 680 }
+                }
+            }
+        };
+
+        function cloneConfig(value) {
+            return JSON.parse(JSON.stringify(value));
+        }
+
+        var CONFIG = cloneConfig(DEFAULT_CONFIG);
+        var E = {
+            canvas: document.getElementById('canvas'),
+            title: document.getElementById('title'),
+            home: document.getElementById('tagHome'),
+            homeText: document.getElementById('homeText'),
+            location: document.getElementById('tagLocation'),
+            arrow: document.getElementById('arrow'),
+            status: document.getElementById('status'),
+            quote: document.getElementById('quote'),
+            avatar: document.getElementById('avatar'),
+            beian: document.getElementById('beian'),
+            json: document.getElementById('jsonArea')
+        };
+        var keyToNode = {
+            title: E.title,
+            home: E.home,
+            location: E.location,
+            arrow: E.arrow,
+            status: E.status,
+            quote: E.quote,
+            avatar: E.avatar,
+            beian: E.beian
+        };
+
+        function setPos(node, obj) {
+            node.style.left = obj.left;
+            node.style.top = obj.top;
+        }
+
+        function px(n) {
+            return Math.round(n) + 'px';
+        }
+
+        function toNum(v) {
+            return Number(String(v).replace('px', '').replace('deg', '')) || 0;
+        }
+
+        function applyAnimation(cfg) {
+            Object.keys(keyToNode).forEach(function (key) {
+                var node = keyToNode[key];
+                node.classList.remove('reveal', 'reveal-left', 'reveal-right', 'reveal-pop');
+                node.style.removeProperty('--delay');
+                node.style.removeProperty('--dur');
+                node.style.opacity = '';
+                node.style.filter = '';
+            });
+            if (!cfg.enabled) {
+                Object.keys(keyToNode).forEach(function (key) {
+                    keyToNode[key].style.opacity = '1';
+                    keyToNode[key].style.filter = 'none';
+                });
+                return;
+            }
+            Object.keys(cfg.items).forEach(function (key) {
+                var node = keyToNode[key];
+                var item = cfg.items[key];
+                if (!node || !item) {
+                    return;
+                }
+                node.classList.add(item.type || 'reveal');
+                node.style.setProperty('--delay', (item.delay || 0) + 'ms');
+                node.style.setProperty('--dur', (item.dur || 700) + 'ms');
+            });
+        }
+
+        function applyConfig(c) {
+            var root = document.documentElement;
+            root.style.setProperty('--bg', c.colors.bg);
+            root.style.setProperty('--grid', c.colors.grid);
+            root.style.setProperty('--text', c.colors.text);
+            root.style.setProperty('--blue', c.colors.blue);
+            root.style.setProperty('--yellow', c.colors.yellow);
+            root.style.setProperty('--white', c.colors.white);
+
+            E.canvas.style.width = c.canvas.width;
+            E.canvas.style.height = c.canvas.height;
+            E.title.textContent = c.text.title;
+            E.homeText.textContent = c.text.home;
+            E.location.textContent = c.text.location;
+            E.status.textContent = c.text.status;
+            E.status.href = c.text.statusUrl || 'javascript:void(0)';
+            E.quote.textContent = c.text.quote;
+            E.beian.textContent = c.text.beian;
+
+            setPos(E.title, c.layout.title);
+            E.title.style.fontSize = c.layout.title.fontSize;
+            E.title.style.transform = 'rotate(' + c.layout.title.rotate + ')';
+
+            setPos(E.home, c.layout.home);
+            E.home.style.padding = c.layout.home.padding;
+            E.home.style.fontSize = c.layout.home.fontSize;
+            E.home.style.borderWidth = c.layout.home.borderWidth;
+            E.home.style.transform = 'rotate(' + c.layout.home.rotate + ')';
+            E.home.style.setProperty('--rot', c.layout.home.rotate);
+
+            setPos(E.location, c.layout.location);
+            E.location.style.padding = c.layout.location.padding;
+            E.location.style.fontSize = c.layout.location.fontSize;
+            E.location.style.borderRadius = c.layout.location.radius;
+            E.location.style.transform = 'rotate(' + c.layout.location.rotate + ')';
+            E.location.style.setProperty('--rot', c.layout.location.rotate);
+
+            setPos(E.arrow, c.layout.arrow);
+            E.arrow.style.width = c.layout.arrow.size;
+            E.arrow.style.height = c.layout.arrow.size;
+            E.arrow.style.transform = 'rotate(' + c.layout.arrow.rotate + ')';
+            E.arrow.style.setProperty('--rot', c.layout.arrow.rotate);
+
+            setPos(E.status, c.layout.status);
+            E.status.style.padding = c.layout.status.padding;
+            E.status.style.fontSize = c.layout.status.fontSize;
+            E.status.style.borderRadius = c.layout.status.radius;
+            E.status.style.transform = 'rotate(' + c.layout.status.rotate + ')';
+            E.status.style.setProperty('--rot', c.layout.status.rotate);
+
+            setPos(E.quote, c.layout.quote);
+            E.quote.style.width = c.layout.quote.width;
+            E.quote.style.fontSize = c.layout.quote.fontSize;
+            E.quote.style.transform = 'rotate(' + c.layout.quote.rotate + ')';
+            E.quote.style.setProperty('--rot', c.layout.quote.rotate);
+
+            setPos(E.avatar, c.layout.avatar);
+            E.avatar.style.width = c.layout.avatar.size;
+            E.avatar.style.height = c.layout.avatar.size;
+            E.avatar.style.transform = 'rotate(' + c.layout.avatar.rotate + ')';
+            E.avatar.style.setProperty('--rot', c.layout.avatar.rotate);
+
+            setPos(E.beian, c.layout.beian);
+            E.beian.style.fontSize = c.layout.beian.fontSize;
+            E.beian.style.transform = 'rotate(' + c.layout.beian.rotate + ')';
+            E.beian.style.setProperty('--rot', c.layout.beian.rotate);
+
+            applyAnimation(c.animation);
+            E.json.value = JSON.stringify(c, null, 2);
+        }
+
+        function replayAnimation() {
+            Object.keys(keyToNode).forEach(function (key) {
+                var node = keyToNode[key];
+                node.classList.remove('reveal', 'reveal-left', 'reveal-right', 'reveal-pop');
+                void node.offsetWidth;
+            });
+            applyAnimation(CONFIG.animation);
+        }
+
+        var dragState = null;
+        function clamp(v, min, max) {
+            return Math.max(min, Math.min(max, v));
+        }
+
+        function beginDrag(e, node, key) {
+            if (e.pointerType !== 'touch' && e.button !== 0) {
+                return;
+            }
+            e.preventDefault();
+            var rect = E.canvas.getBoundingClientRect();
+            var nodeRect = node.getBoundingClientRect();
+            var isMobile = window.matchMedia('(max-width: 760px)').matches;
+            dragState = {
+                key: key,
+                node: node,
+                startX: e.clientX,
+                startY: e.clientY,
+                startLeft: isMobile ? nodeRect.left - rect.left : toNum(CONFIG.layout[key].left),
+                startTop: isMobile ? nodeRect.top - rect.top : toNum(CONFIG.layout[key].top),
+                isMobile: isMobile,
+                canvasRect: rect,
+                nodeW: nodeRect.width,
+                nodeH: nodeRect.height
+            };
+            document.querySelectorAll('.draggable').forEach(function (item) {
+                item.classList.remove('selected');
+            });
+            node.classList.add('selected', 'dragging');
+            window.addEventListener('pointermove', onDragMove);
+            window.addEventListener('pointerup', endDrag, { once: true });
+        }
+
+        function onDragMove(e) {
+            if (!dragState) {
+                return;
+            }
+            var d = dragState;
+            var nextLeft = d.startLeft + e.clientX - d.startX;
+            var nextTop = d.startTop + e.clientY - d.startY;
+            var maxLeft = d.canvasRect.width - d.nodeW;
+            var maxTop = d.canvasRect.height - d.nodeH;
+            nextLeft = clamp(nextLeft, 0, Math.max(0, maxLeft));
+            nextTop = clamp(nextTop, 0, Math.max(0, maxTop));
+            CONFIG.layout[d.key].left = px(nextLeft);
+            CONFIG.layout[d.key].top = px(nextTop);
+            if (d.isMobile) {
+                d.node.style.setProperty('left', CONFIG.layout[d.key].left, 'important');
+                d.node.style.setProperty('top', CONFIG.layout[d.key].top, 'important');
+                d.node.style.setProperty('right', 'auto', 'important');
+                d.node.style.setProperty('bottom', 'auto', 'important');
+            } else {
+                d.node.style.left = CONFIG.layout[d.key].left;
+                d.node.style.top = CONFIG.layout[d.key].top;
+            }
+            syncPositionInputs();
+            E.json.value = JSON.stringify(CONFIG, null, 2);
+        }
+
+        function endDrag() {
+            if (!dragState) {
+                return;
+            }
+            dragState.node.classList.remove('dragging');
+            dragState = null;
+            window.removeEventListener('pointermove', onDragMove);
+        }
+
+        function enableDrag() {
+            Object.keys(keyToNode).forEach(function (key) {
+                keyToNode[key].addEventListener('pointerdown', function (e) {
+                    beginDrag(e, keyToNode[key], key);
+                });
+            });
+        }
+
+        function g(id) {
+            return document.getElementById(id);
+        }
+
+        function syncPositionInputs() {
+            g('t-left').value = toNum(CONFIG.layout.title.left);
+            g('t-top').value = toNum(CONFIG.layout.title.top);
+            g('h-left').value = toNum(CONFIG.layout.home.left);
+            g('h-top').value = toNum(CONFIG.layout.home.top);
+            g('l-left').value = toNum(CONFIG.layout.location.left);
+            g('l-top').value = toNum(CONFIG.layout.location.top);
+            g('a-left').value = toNum(CONFIG.layout.arrow.left);
+            g('a-top').value = toNum(CONFIG.layout.arrow.top);
+            g('s-left').value = toNum(CONFIG.layout.status.left);
+            g('s-top').value = toNum(CONFIG.layout.status.top);
+            g('q-left').value = toNum(CONFIG.layout.quote.left);
+            g('q-top').value = toNum(CONFIG.layout.quote.top);
+            g('v-left').value = toNum(CONFIG.layout.avatar.left);
+            g('v-top').value = toNum(CONFIG.layout.avatar.top);
+        }
+
+        function fillInputsFromConfig(c) {
+            g('f-title').value = c.text.title;
+            g('f-home').value = c.text.home;
+            g('f-location').value = c.text.location;
+            g('f-status').value = c.text.status;
+            g('f-status-url').value = c.text.statusUrl;
+            g('f-quote').value = c.text.quote;
+            g('c-bg').value = c.colors.bg;
+            g('c-grid').value = c.colors.grid;
+            g('c-text').value = c.colors.text;
+            g('c-blue').value = c.colors.blue;
+            g('c-yellow').value = c.colors.yellow;
+            syncPositionInputs();
+            g('t-size').value = c.layout.title.fontSize;
+            g('h-rot').value = toNum(c.layout.home.rotate);
+            g('l-rot').value = toNum(c.layout.location.rotate);
+            g('a-rot').value = toNum(c.layout.arrow.rotate);
+            g('s-rot').value = toNum(c.layout.status.rotate);
+            g('q-rot').value = toNum(c.layout.quote.rotate);
+            g('v-rot').value = toNum(c.layout.avatar.rotate);
+            g('an-enabled').checked = c.animation.enabled;
+            g('an-title-delay').value = c.animation.items.title.delay;
+            g('an-home-delay').value = c.animation.items.home.delay;
+            g('an-location-delay').value = c.animation.items.location.delay;
+            g('an-arrow-delay').value = c.animation.items.arrow.delay;
+            g('an-status-delay').value = c.animation.items.status.delay;
+            g('an-quote-delay').value = c.animation.items.quote.delay;
+            g('an-avatar-delay').value = c.animation.items.avatar.delay;
+            E.json.value = JSON.stringify(c, null, 2);
+        }
+
+        function bindInputs() {
+            function setPX(obj, key, val) {
+                obj[key] = Number(val) + 'px';
+            }
+            function setDEG(obj, val) {
+                obj.rotate = Number(val) + 'deg';
+            }
+            g('f-title').oninput = function (e) { CONFIG.text.title = e.target.value; applyConfig(CONFIG); };
+            g('f-home').oninput = function (e) { CONFIG.text.home = e.target.value; applyConfig(CONFIG); };
+            g('f-location').oninput = function (e) { CONFIG.text.location = e.target.value; applyConfig(CONFIG); };
+            g('f-status').oninput = function (e) { CONFIG.text.status = e.target.value; applyConfig(CONFIG); };
+            g('f-status-url').oninput = function (e) { CONFIG.text.statusUrl = e.target.value; applyConfig(CONFIG); };
+            g('f-quote').oninput = function (e) { CONFIG.text.quote = e.target.value; applyConfig(CONFIG); };
+            g('c-bg').oninput = function (e) { CONFIG.colors.bg = e.target.value; applyConfig(CONFIG); };
+            g('c-grid').oninput = function (e) { CONFIG.colors.grid = e.target.value || 'rgba(0,0,0,0.045)'; applyConfig(CONFIG); };
+            g('c-text').oninput = function (e) { CONFIG.colors.text = e.target.value; applyConfig(CONFIG); };
+            g('c-blue').oninput = function (e) { CONFIG.colors.blue = e.target.value; applyConfig(CONFIG); };
+            g('c-yellow').oninput = function (e) { CONFIG.colors.yellow = e.target.value; applyConfig(CONFIG); };
+
+            g('t-left').oninput = function (e) { setPX(CONFIG.layout.title, 'left', e.target.value); applyConfig(CONFIG); };
+            g('t-top').oninput = function (e) { setPX(CONFIG.layout.title, 'top', e.target.value); applyConfig(CONFIG); };
+            g('t-size').oninput = function (e) { CONFIG.layout.title.fontSize = e.target.value; applyConfig(CONFIG); };
+            g('h-left').oninput = function (e) { setPX(CONFIG.layout.home, 'left', e.target.value); applyConfig(CONFIG); };
+            g('h-top').oninput = function (e) { setPX(CONFIG.layout.home, 'top', e.target.value); applyConfig(CONFIG); };
+            g('h-rot').oninput = function (e) { setDEG(CONFIG.layout.home, e.target.value); applyConfig(CONFIG); };
+            g('l-left').oninput = function (e) { setPX(CONFIG.layout.location, 'left', e.target.value); applyConfig(CONFIG); };
+            g('l-top').oninput = function (e) { setPX(CONFIG.layout.location, 'top', e.target.value); applyConfig(CONFIG); };
+            g('l-rot').oninput = function (e) { setDEG(CONFIG.layout.location, e.target.value); applyConfig(CONFIG); };
+            g('a-left').oninput = function (e) { setPX(CONFIG.layout.arrow, 'left', e.target.value); applyConfig(CONFIG); };
+            g('a-top').oninput = function (e) { setPX(CONFIG.layout.arrow, 'top', e.target.value); applyConfig(CONFIG); };
+            g('a-rot').oninput = function (e) { setDEG(CONFIG.layout.arrow, e.target.value); applyConfig(CONFIG); };
+            g('s-left').oninput = function (e) { setPX(CONFIG.layout.status, 'left', e.target.value); applyConfig(CONFIG); };
+            g('s-top').oninput = function (e) { setPX(CONFIG.layout.status, 'top', e.target.value); applyConfig(CONFIG); };
+            g('s-rot').oninput = function (e) { setDEG(CONFIG.layout.status, e.target.value); applyConfig(CONFIG); };
+            g('q-left').oninput = function (e) { setPX(CONFIG.layout.quote, 'left', e.target.value); applyConfig(CONFIG); };
+            g('q-top').oninput = function (e) { setPX(CONFIG.layout.quote, 'top', e.target.value); applyConfig(CONFIG); };
+            g('q-rot').oninput = function (e) { setDEG(CONFIG.layout.quote, e.target.value); applyConfig(CONFIG); };
+            g('v-left').oninput = function (e) { setPX(CONFIG.layout.avatar, 'left', e.target.value); applyConfig(CONFIG); };
+            g('v-top').oninput = function (e) { setPX(CONFIG.layout.avatar, 'top', e.target.value); applyConfig(CONFIG); };
+            g('v-rot').oninput = function (e) { setDEG(CONFIG.layout.avatar, e.target.value); applyConfig(CONFIG); };
+
+            g('an-enabled').onchange = function (e) { CONFIG.animation.enabled = e.target.checked; applyConfig(CONFIG); };
+            g('an-title-delay').oninput = function (e) { CONFIG.animation.items.title.delay = +e.target.value; applyConfig(CONFIG); };
+            g('an-home-delay').oninput = function (e) { CONFIG.animation.items.home.delay = +e.target.value; applyConfig(CONFIG); };
+            g('an-location-delay').oninput = function (e) { CONFIG.animation.items.location.delay = +e.target.value; applyConfig(CONFIG); };
+            g('an-arrow-delay').oninput = function (e) { CONFIG.animation.items.arrow.delay = +e.target.value; applyConfig(CONFIG); };
+            g('an-status-delay').oninput = function (e) { CONFIG.animation.items.status.delay = +e.target.value; applyConfig(CONFIG); };
+            g('an-quote-delay').oninput = function (e) { CONFIG.animation.items.quote.delay = +e.target.value; applyConfig(CONFIG); };
+            g('an-avatar-delay').oninput = function (e) { CONFIG.animation.items.avatar.delay = +e.target.value; applyConfig(CONFIG); };
+            g('replay').onclick = replayAnimation;
+            g('copyJson').onclick = function () {
+                var txt = JSON.stringify(CONFIG, null, 2);
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(txt).then(function () { alert('已复制 JSON'); }, function () { alert('复制失败，请手动复制'); });
+                } else {
+                    alert('当前浏览器不支持自动复制，请手动复制');
+                }
+            };
+            g('downloadJson').onclick = function () {
+                var blob = new Blob([JSON.stringify(CONFIG, null, 2)], { type: 'application/json' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'home-hero-config.json';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            };
+            g('loadJson').onclick = function () {
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json,application/json';
+                input.onchange = function () {
+                    var file = input.files && input.files[0];
+                    if (!file) {
+                        return;
+                    }
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        try {
+                            CONFIG = JSON.parse(String(reader.result));
+                            fillInputsFromConfig(CONFIG);
+                            applyConfig(CONFIG);
+                            replayAnimation();
+                            alert('导入成功');
+                        } catch (error) {
+                            alert('JSON 格式错误');
+                        }
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            };
+            g('reset').onclick = function () {
+                CONFIG = cloneConfig(DEFAULT_CONFIG);
+                fillInputsFromConfig(CONFIG);
+                applyConfig(CONFIG);
+                replayAnimation();
+            };
+        }
+
+        enableDrag();
+        bindInputs();
+        fillInputsFromConfig(CONFIG);
+        applyConfig(CONFIG);
+        g('openEditor').onclick = function () {
+            g('editorPanel').hidden = false;
+            g('openEditor').hidden = true;
+        };
+        g('closeEditor').onclick = function () {
+            g('editorPanel').hidden = true;
+            g('openEditor').hidden = false;
+        };
+        function fitStageToMobile() {
+            document.documentElement.style.removeProperty('--stage-scale');
+        }
+        fitStageToMobile();
+        window.addEventListener('resize', fitStageToMobile);
+        window.addEventListener('orientationchange', fitStageToMobile);
+        window.CONFIG = CONFIG;
+        window.applyConfig = applyConfig;
+    </script>
+</body>
+</html>
