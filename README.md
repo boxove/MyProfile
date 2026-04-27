@@ -16,14 +16,12 @@
 ```text
 .
 ├── index.html                         # 当前主页入口，包含编辑面板与交互逻辑
-├── Portfolio-Hero-Editor-Draggable.html # 旧版独立拖拽编辑器示例
 ├── README.md                          # 项目说明
 └── css
     ├── style.css                      # 主页样式
     ├── img                            # 图标、头像与社交图标资源
     ├── js                             # 预留第三方脚本资源
-    ├── font                           # APlayer 字体资源
-    └── music                          # 预留音乐资源
+    └── font                           # APlayer 字体资源
 ```
 
 ## 使用说明
